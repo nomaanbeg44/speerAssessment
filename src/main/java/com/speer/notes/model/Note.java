@@ -1,5 +1,7 @@
 package com.speer.notes.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -15,18 +17,19 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "note")
+@DynamicUpdate // Enables partial updates at the entity level. This will update only the changed fields and ignore the other fields in update query.
 public class Note {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "title")
 	private String title;
-	
-	@Column(name  = "content")
+
+	@Column(name = "content")
 	private String content;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	@JsonIgnore
@@ -40,6 +43,7 @@ public class Note {
 		this.user = user;
 	}
 
-	public Note() {}
+	public Note() {
+	}
 
 }
